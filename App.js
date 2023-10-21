@@ -27,6 +27,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { Text } from "react-native";
+import SplashScreen from "./lib/screens/SplashScreen";
 
 /**
  * This is the first function to be executed.
@@ -34,18 +35,31 @@ import { Text } from "react-native";
  * The App function should only contain dependencies and libraries plus the navigator on use.
  *
  */
+
+const Stack = createNativeStackNavigator();
+
 export default function App() {
   global.debug = false;
+  global.debugCurrentScreen = "splash";
+  global.initialScreen = "splash";
 
   return (
     <GestureHandlerRootView className="flex-1">
       <PaperProvider>
         <SafeAreaProvider>
-          {/* <NavigationContainer>*/}
-          <Text>
-            Insert Your NavigatorContainer and Preferred Navigator here
-          </Text>
-          {/*</NavigationContainer> */}
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={
+                global.debug ? global.debugCurrentScreen : global.initialScreen
+              }
+            >
+              <Stack.Screen
+                name="splash"
+                component={SplashScreen}
+                options={{ animation: "fade" }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>
     </GestureHandlerRootView>
